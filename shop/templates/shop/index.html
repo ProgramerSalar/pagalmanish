@@ -10,7 +10,7 @@
 
     <title>Hello, world!</title>
 
-    {% comment %} {% extends 'shop/basic.html' %} {% endcomment %}
+    {% extends 'shop/basic.html' %}
     {% block css %}
     <style>
             .col-md-3 {
@@ -138,7 +138,7 @@
                     <div class="card-body">
                       <h5 class="card-title">{{product.0.product_name}}</h5>
                       <p class="card-text">{{product.0.desc}}</p>
-                      <a href="#" class="btn btn-primary">Add to cart</a>
+                      <button id='{{product.0.id}}' class="btn btn-primary cart">Add to cart</button>
                     </div>
                   </div>
                 </div>
@@ -150,7 +150,7 @@
                     <div class="card-body">
                       <h5 class="card-title">{{i.product_name}}</h5>
                       <p class="card-text">{{i.desc}}</p>
-                      <a href="#" class="btn btn-primary">Add to cart</a>
+                      <button id='pr{{i.id}}' class="btn btn-primary cart">Add to cart</button>
                     </div>
                   </div>
                 </div>
@@ -178,7 +178,32 @@
 
     {% endblock %}
 
-    
+    {% block js %}
+<script>
+console.log('working the console ')
+if (localStorage.getItem('cart') == null){
+var cart = {}
+}
+else{
+  cart = JSON.parse(localStorage.getItem('cart'))
+}
+
+$('.cart').click(function(){
+  console.log('clicked')
+  var idStr = this.id.toString();
+  console.log(idStr)
+  if(cart[idStr] != undefined) {
+    cart[idStr] = cart[idStr]+1
+  }
+  else{
+    cart[idStr] = 1;
+  }
+  console.log(cart)
+  localStorage.setItem('cart' , JSON.stringify(cart))
+})
+
+</script>
+    {% endblock %}
 
 
 
